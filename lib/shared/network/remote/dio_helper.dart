@@ -27,7 +27,7 @@ class DioHelper {
     return await dio.get(url, queryParameters: query);
   }
 
-  static Future<Response> postData(String language, String token,Map<String,dynamic> query,
+  static Future<Response> postData(String language,String token,Map<String,dynamic> query,
       {required String url, required Map<String, dynamic> data}) async {
 
     language == null ? language = 'ar' : language = language;
