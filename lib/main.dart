@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:light_mart/modules/on_boarding/on_boarding_screen.dart';
+import 'package:light_mart/shared/components/constants.dart';
 import 'package:light_mart/shared/network/local/cache_helper.dart';
 import 'package:light_mart/shared/network/remote/dio_helper.dart';
 import 'package:light_mart/shared/styles/themes.dart';
@@ -21,7 +22,7 @@ void main() async {
 
   dynamic onBoarding = CacheHelper.getData('onBoarding');
 
-  dynamic token = CacheHelper.getData('token');
+  token = CacheHelper.getData('token');
 
   if (onBoarding != null) {
     if (token != null)

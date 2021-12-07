@@ -15,9 +15,11 @@ class DioHelper {
     );
   }
 
-  static Future<Response> getData(String language, String token,
-      {required String url, required Map<String, dynamic> query}) async {
-    language == null ? language = 'ar' : language = language;
+  static Future<Response> getData({
+    String? language,
+    String? token,
+    required String url,
+    Map<String, dynamic>? query}) async {
 
     dio.options.headers = {
       'lang': '$language',
@@ -29,8 +31,6 @@ class DioHelper {
 
   static Future<Response> postData(String language,String token,Map<String,dynamic> query,
       {required String url, required Map<String, dynamic> data}) async {
-
-    language == null ? language = 'ar' : language = language;
 
     dio.options.headers = {
       'lang': '$language',
