@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:light_mart/modules/login/login_screen.dart';
+import 'package:light_mart/shared/network/local/cache_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -35,13 +36,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(onPressed: (){
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => LoginScreen()),
-                    (Route<dynamic> route) => false);
-          },child:Text('SKIP'),)
+          TextButton(
+            onPressed: () {
+              CacheHelper.saveData('onBoarding', true).then((value) {
+                if (value) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => LoginScreen()),
+                      (Route<dynamic> route) => false);
+                }
+              });
+            },
+            child: Text('SKIP'),
+          )
         ],
       ),
       body: Padding(
@@ -89,11 +97,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => LoginScreen()),
-                          (Route<dynamic> route) => false);
+                      CacheHelper.saveData('onBoarding', true).then((value) {
+                        if (value) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LoginScreen()),
+                              (Route<dynamic> route) => false);
+                        }
+                      });
                     } else {
                       boardController.nextPage(
                           duration: Duration(

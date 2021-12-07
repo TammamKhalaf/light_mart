@@ -1,26 +1,54 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:light_mart/modules/on_boarding/on_boarding_screen.dart';
+import 'package:light_mart/shared/network/local/cache_helper.dart';
 import 'package:light_mart/shared/network/remote/dio_helper.dart';
 import 'package:light_mart/shared/styles/themes.dart';
-
+import 'layout/shop_layout.dart';
 import 'modules/login/cubit/cubit_observer.dart';
+import 'modules/login/login_screen.dart';
 
-void main() {
-  BlocOverrides.runZoned(
-    () {
-      // Use blocs...
-    },
-    blocObserver: MyBlocObserver(),
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await CacheHelper?.init();
 
   DioHelper.init();
 
-  runApp(const MyApp());
+  Widget widget;
+
+  dynamic isDark = CacheHelper?.getData('isDark') ?? false;
+
+  dynamic onBoarding = CacheHelper.getData('onBoarding');
+
+  dynamic token = CacheHelper.getData('token');
+
+  if (onBoarding != null) {
+    if (token != null)
+      widget = ShopLayout();
+    else
+      widget = LoginScreen();
+  } else {
+    widget = OnBoardingScreen();
+  }
+
+  BlocOverrides.runZoned(
+    () {
+      runApp(MyApp(
+        startWidget: widget,
+        isDark: isDark,
+      ));
+    },
+    blocObserver: MyBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool isDark;
+  final Widget startWidget;
+
+  MyApp({Key? key, required this.isDark, required this.startWidget})
+      : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -30,7 +58,7 @@ class MyApp extends StatelessWidget {
       title: '',
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: OnBoardingScreen(),
+      home: startWidget,
     );
   }
 }

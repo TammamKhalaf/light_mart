@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:light_mart/layout/shop_layout.dart';
 import 'package:light_mart/modules/login/cubit/cubit.dart';
 import 'package:light_mart/modules/login/cubit/states.dart';
 import 'package:light_mart/modules/register/register_screen.dart';
 import 'package:light_mart/shared/components/component_s.dart';
+import 'package:light_mart/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -20,33 +22,26 @@ class LoginScreen extends StatelessWidget {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
-          if(state is LoginSuccessState){
+          if (state is LoginSuccessState) {
             //logged in
-            if(state.loginModel.status){
+            if (state.loginModel.status) {
               //go to home screen
               print(state.loginModel.data);
               print(state.loginModel.message);
-              Fluttertoast.showToast(
-                  msg:state.loginModel.message,
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.green,
-                  textColor: Colors.white,
-                  fontSize: 16.0
-              );
-            }else{
+              print('token is ${state.loginModel.data.token}');
+              CacheHelper.saveData('token', state.loginModel.data.token)
+                  .then((value) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => ShopLayout()),
+                    (Route<dynamic> route) => false);
+              });
+            } else {
               //error
               print(state.loginModel.message);
-              Fluttertoast.showToast(
-                  msg:state.loginModel.message,
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0
-              );
+              showToast(
+                  msg: state.loginModel.message, state: ToastStates.ERROR);
             }
           }
         },
