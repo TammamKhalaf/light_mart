@@ -39,7 +39,6 @@ class ShopCubit extends Cubit<ShopStates> {
         .then((value) {
       print(value.data);
       homeModel = HomeModel.fromJson(value.data);
-      print(homeModel.toString());
       emit(ShopSuccessHomeDataStates());
     }).catchError((error) {
       print(error.toString());

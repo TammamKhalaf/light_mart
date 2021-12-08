@@ -32,12 +32,12 @@ class Data {
     required this.ad,
   });
   late final List<Banners> banners;
-  late final List<Products> products;
+  late final List<ProductModel> products;
   late final String ad;
 
   Data.fromJson(Map<String, dynamic> json){
     banners = List.from(json['banners']).map((e)=>Banners.fromJson(e)).toList();
-    products = List.from(json['products']).map((e)=>Products.fromJson(e)).toList();
+    products = List.from(json['products']).map((e)=>ProductModel.fromJson(e)).toList();
     ad = json['ad'];
   }
 
@@ -60,7 +60,7 @@ class Banners {
   late final num id;
   late final String image;
   late final Category? category;
-  late final Products? product;
+  late final ProductModel? product;
 
   Banners.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -79,8 +79,8 @@ class Banners {
   }
 }
 
-class Products {
-  Products({
+class ProductModel {
+  ProductModel({
     required this.id,
     required this.price,
     required this.oldPrice,
@@ -103,7 +103,7 @@ class Products {
   late final bool inFavorites;
   late final bool inCart;
 
-  Products.fromJson(Map<String, dynamic> json){
+  ProductModel.fromJson(Map<String, dynamic> json){
     id = json['id'];
     price = json['price'];
     oldPrice = json['old_price'];
