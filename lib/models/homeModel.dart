@@ -31,12 +31,12 @@ class Data {
     required this.products,
     required this.ad,
   });
-  late final List<Banners> banners;
+  late final List<Banner> banners;
   late final List<ProductModel> products;
   late final String ad;
 
   Data.fromJson(Map<String, dynamic> json){
-    banners = List.from(json['banners']).map((e)=>Banners.fromJson(e)).toList();
+    banners = List.from(json['banners']).map((e)=>Banner.fromJson(e)).toList();
     products = List.from(json['products']).map((e)=>ProductModel.fromJson(e)).toList();
     ad = json['ad'];
   }
@@ -50,8 +50,8 @@ class Data {
   }
 }
 
-class Banners {
-  Banners({
+class Banner {
+  Banner({
     required this.id,
     required this.image,
     required this.category,
@@ -62,7 +62,7 @@ class Banners {
   late final Category? category;
   late final ProductModel? product;
 
-  Banners.fromJson(Map<String, dynamic> json){
+  Banner.fromJson(Map<String, dynamic> json){
     id = json['id'];
     image = json['image'];
     category = json['category'];

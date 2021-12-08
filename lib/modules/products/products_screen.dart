@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:light_mart/layout/cubit/cubit.dart';
 import 'package:light_mart/layout/cubit/states.dart';
+import 'package:light_mart/models/categoriesModel.dart';
 import 'package:light_mart/models/homeModel.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -16,9 +17,9 @@ class ProductsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: ShopCubit.get(context).homeModel != null,
+          condition: ShopCubit.get(context).homeModel != null && ShopCubit.get(context).categoriesModel != null,
           builder: (context) =>
-              ProductsBuilder(ShopCubit.get(context).homeModel),
+              ProductsBuilder(ShopCubit.get(context).homeModel,ShopCubit.get(context).categoriesModel),
           fallback: (context) => Center(
             child: CircularProgressIndicator(),
           ),
@@ -27,9 +28,10 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget ProductsBuilder(HomeModel? model) => SingleChildScrollView(
+  Widget ProductsBuilder(HomeModel? model, CategoriesModel? categoriesModel) => SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
               items: model!.data.banners
@@ -52,6 +54,53 @@ class ProductsScreen extends StatelessWidget {
                 autoPlayAnimationDuration: Duration(seconds: 1),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 scrollDirection: Axis.horizontal,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Categories',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    height: 100,
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: categoriesModel!.data.data.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) =>
+                          builCategoryItem(categoriesModel.data.data[index]),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(
+                        width: 20.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    'New Products',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -125,7 +174,9 @@ class ProductsScreen extends StatelessWidget {
                           Text(
                             '${model.price.round()}',
                             style: TextStyle(
-                                fontSize: 12, height: 1.3, color: Colors.deepOrange),
+                                fontSize: 12,
+                                height: 1.3,
+                                color: Colors.deepOrange),
                           ),
                           SizedBox(
                             width: 5.0,
@@ -151,5 +202,36 @@ class ProductsScreen extends StatelessWidget {
             ),
           )
         ],
+      );
+
+  Widget builCategoryItem(ProductData data) => Container(
+        height: 100,
+        width: 100,
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Image(
+              image: NetworkImage(
+                '${data.image}',
+              ),
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+            Container(
+              width: double.infinity,
+              child: Text(
+                data.name,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              color: Colors.black.withOpacity(0.8),
+            ),
+          ],
+        ),
       );
 }
