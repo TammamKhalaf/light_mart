@@ -23,3 +23,23 @@ class ShopErrorCategoriesStates extends ShopStates {
   ShopErrorCategoriesStates(this.error);
 
 }
+
+class ShopSuccessChangeFavoritesStates extends ShopStates {}
+
+class ShopErrorChangeFavoritesStates extends ShopStates {
+  final String error;
+
+  ShopErrorChangeFavoritesStates(this.error);
+
+}
+
+class ShopLoadingGetFavoritesStates extends ShopStates {}
+
+class ShopSuccessGetFavoritesStates extends ShopStates {}
+
+class ShopErrorGetFavoritesStates extends ShopStates {
+  final String error;
+
+  ShopErrorGetFavoritesStates(this.error);
+
+}

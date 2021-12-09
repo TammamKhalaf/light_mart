@@ -30,7 +30,7 @@ class Data {
   late final int lastPage;
   late final dynamic lastPageUrl;
   late final dynamic nextPageUrl;
-  late final String path;
+  late final dynamic path;
   late final int perPage;
   late final dynamic prevPageUrl;
   late final int to;
@@ -92,8 +92,8 @@ class Data {
 
 class ProductData {
   late final int id;
-  late final String name;
-  late final String image;
+  late final dynamic name;
+  late final dynamic image;
 
   ProductData({required this.id, required this.name, required this.image});
 

@@ -7,7 +7,7 @@ class HomeModel {
     required this.data,
   });
   late final bool status;
-  late final String message;
+  late final dynamic message;
   late final Data data;
 
   HomeModel.fromJson(Map<String, dynamic> json){
@@ -58,7 +58,7 @@ class Banner {
     required this.product,
   });
   late final num id;
-  late final String image;
+  late final dynamic image;
   late final Category? category;
   late final ProductModel? product;
 
@@ -96,10 +96,10 @@ class ProductModel {
   late final dynamic price;
   late final dynamic oldPrice;
   late final dynamic discount;
-  late final String image;
-  late final String name;
-  late final String description;
-  late final List<String> images;
+  late final dynamic image;
+  late final dynamic name;
+  late final dynamic description;
+  late final List<dynamic> images;
   late final bool inFavorites;
   late final bool inCart;
 
