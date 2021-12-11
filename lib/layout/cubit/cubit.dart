@@ -75,7 +75,7 @@ class ShopCubit extends Cubit<ShopStates> {
   void changeFavorites(int productId) {
     favorites[productId] = !(favorites[productId])!;
     emit(ShopSuccessChangeFavoritesStates());
-    print('TOKEN IS '+token);
+    print('TOKEN IS ' + token);
     DioHelper.postData('en', token, {'': ''},
         url: FAVORITES,
         data: {
@@ -84,7 +84,7 @@ class ShopCubit extends Cubit<ShopStates> {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
       if (!changeFavoritesModel!.status) {
         favorites[productId] = !(favorites[productId])!;
-      }else{
+      } else {
         getFavorites();
       }
       emit(ShopSuccessChangeFavoritesStates());
@@ -130,4 +130,26 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
+  void updateUserData({
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    DioHelper.putData(
+        language: 'en',
+        token: token,
+        url: UPDATE_PROFILE,
+        data: {
+          'name': name,
+          'email': email,
+          'phone': phone,
+        }).then((value) {
+      emit(ShopLoadingUpdateUserDataStates());
+      userModel = LoginModel.fromJson(value.data);
+      emit(ShopSuccessUpdateUserDataStates(userModel));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorUpdateUserDataStates(error.toString()));
+    });
+  }
 }

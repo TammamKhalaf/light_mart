@@ -9,7 +9,7 @@ Widget defaultFormField({
   ValueChanged<String>? onChange,
   GestureTapCallback? onTap,
   bool isPassword = false,
-  FormFieldValidator<String>? validate,
+  required FormFieldValidator<String> validate,
   required String label,
   required IconData prefix,
   IconData? suffix,

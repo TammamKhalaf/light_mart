@@ -20,8 +20,8 @@ class Data {
   late final dynamic email;
   late final dynamic phone;
   late final dynamic image;
-  late final int points;
-  late final int credit;
+  late final dynamic points;
+  late final dynamic credit;
   late final dynamic token;
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -42,7 +42,6 @@ class FavoritesData {
 
   FavoritesData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    product =
-        (json['product'] != null ? new ProductModel.fromJson(json['product']) : null)!;
+    product = (json['product'] != null ? new ProductModel.fromJson(json['product']) : null)!;
   }
 }

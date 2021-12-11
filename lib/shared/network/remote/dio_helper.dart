@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -27,15 +28,29 @@ class DioHelper {
   }
 
   static Future<Response> postData(
-      String language, String token, Map<String, dynamic> query,
-      {required String url, required Map<String, dynamic> data}) async {
+      String language, String token,Map<String, dynamic> query,
+      {required String url,required Map<String, dynamic> data}) async {
     dio.options.headers = {
       'lang': '$language',
       'Content-Type': 'application/json',
       'Authorization': token
     };
-
     return await dio.post(
+      url,
+      queryParameters: query,
+      data: data,
+    );
+  }
+
+  static Future<Response> putData({
+      String? language,String? token,Map<String, dynamic>? query,
+      required String url,required Map<String, dynamic> data}) async {
+    dio.options.headers = {
+      'lang': '$language',
+      'Content-Type': 'application/json',
+      'Authorization': token
+    };
+    return await dio.put(
       url,
       queryParameters: query,
       data: data,
