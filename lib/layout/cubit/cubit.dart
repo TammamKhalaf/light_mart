@@ -7,6 +7,7 @@ import 'package:light_mart/models/categoriesModel.dart';
 import 'package:light_mart/models/change_favorites_model.dart';
 import 'package:light_mart/models/favorites_model.dart';
 import 'package:light_mart/models/homeModel.dart';
+import 'package:light_mart/models/login_model.dart';
 import 'package:light_mart/modules/categories/categories_screen.dart';
 import 'package:light_mart/modules/favorites/favorites_screen.dart';
 import 'package:light_mart/modules/products/products_screen.dart';
@@ -93,7 +94,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  late FavoritesModel favoritesModel;
+  FavoritesModel? favoritesModel;
 
   void getFavorites() {
     DioHelper.getData(
@@ -110,4 +111,23 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopErrorGetFavoritesStates(error));
     });
   }
+
+  LoginModel? userModel;
+
+  void getUserData() {
+    DioHelper.getData(
+      language: 'en',
+      url: PROFILE,
+      token: token,
+    ).then((value) {
+      emit(ShopLoadingUserDataStates());
+      userModel = LoginModel.fromJson(value.data);
+      print('PROFILE model ' + value.data.toString());
+      emit(ShopSuccessUserDataStates(userModel));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorUserDataStates(error));
+    });
+  }
+
 }

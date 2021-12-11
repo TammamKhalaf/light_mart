@@ -18,18 +18,18 @@ class FavoritesModel
 }
 
 class Data {
-  late int currentPage;
+  late dynamic currentPage;
   late List<FavoritesData> data;
   late dynamic firstPageUrl;
-  late int from;
-  late int lastPage;
+  late dynamic from;
+  late dynamic lastPage;
   late dynamic lastPageUrl;
   late dynamic nextPageUrl;
   late dynamic path;
-  late int perPage;
+  late dynamic perPage;
   late dynamic prevPageUrl;
-  late int to;
-  late int total;
+  late dynamic to;
+  late dynamic total;
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];

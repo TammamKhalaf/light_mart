@@ -7,6 +7,7 @@ import 'package:light_mart/modules/login/cubit/cubit.dart';
 import 'package:light_mart/modules/login/cubit/states.dart';
 import 'package:light_mart/modules/register/register_screen.dart';
 import 'package:light_mart/shared/components/component_s.dart';
+import 'package:light_mart/shared/components/constants.dart';
 import 'package:light_mart/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -30,6 +31,7 @@ class LoginScreen extends StatelessWidget {
               print('token is ${state.loginModel.data.token}');
               CacheHelper.saveData('token', state.loginModel.data.token)
                   .then((value) {
+                    token = state.loginModel.data.token;
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
